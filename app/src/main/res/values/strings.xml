@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">VoicePi</string>
+    <string name="tutorial">Tab the mic and say a number, or a color.</string>
+</resources>
