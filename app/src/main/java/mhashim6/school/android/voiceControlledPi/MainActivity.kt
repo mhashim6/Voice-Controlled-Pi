@@ -14,7 +14,7 @@ import mhashim6.school.android.voiceControlledPi.Response.*
 
 private const val VOICE_REQUEST_CODE = 118
 
-private val PROMPTS = listOf(
+private val PROMPTS = arrayOf(
     "Say a number from 1 to 10",
     "Say red, green, or yellow",
     "Say light, or dark",

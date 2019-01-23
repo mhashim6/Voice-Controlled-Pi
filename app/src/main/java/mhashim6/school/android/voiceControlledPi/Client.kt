@@ -32,9 +32,9 @@ private val LED_NUMBERS = mapOf(
     "ten" to "10"
 )
 
-private val COMMANDS = listOf("light", "dark", "dance")
-private val COLORS = listOf("red", "green", "yellow")
-private val DANCES = listOf("0", "1")
+private val COMMANDS = arrayOf("light", "dark", "dance")
+private val COLORS = arrayOf("red", "green", "yellow")
+private val DANCES = arrayOf("0", "1")
 private val client = OkHttpClient()
 
 enum class Response { SUCCESSFUL, ERR_WRONG_COMMAND, ERR_CONNECTION }
