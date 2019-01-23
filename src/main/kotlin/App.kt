@@ -17,12 +17,12 @@ fun main(args: Array<String>) {
     embeddedServer(Netty, 8585) {
         routing {
             get("/") {
-                call.respondText(statusAll().toString(), ContentType.Text.Plain) //TODO JSON?
+                call.respondText(stateAll().toString(), ContentType.Text.Plain) //TODO JSON?
             }
 
             get("/{pin}") {
                 call.parameters["pin"]?.let { pin ->
-                    call.respondText(status(pin), ContentType.Text.Plain)
+                    call.respondText(state(pin), ContentType.Text.Plain)
                 }
             }
 

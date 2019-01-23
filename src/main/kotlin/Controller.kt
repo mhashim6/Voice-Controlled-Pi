@@ -19,7 +19,7 @@ val pins = mapOf<String, GpioPinDigitalOutput>(
     "10" to gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, PinState.LOW).apply { properties["color"] = "red" }
 )
 
-fun status(pin: String): String {
+fun state(pin: String): String {
     if (pins.containsKey(pin).not())
         return PinState.LOW.toString()
 
@@ -36,8 +36,8 @@ fun toggleColor(color: String) {
     pins.values.filter { it.properties["color"] == color }.forEach { it.toggle() }
 }
 
-fun statusAll() = pins.map { it.key to it.value.state.toString() }
-//fun statusAll() = pins.values.map { it.state.toString() }
+fun stateAll() = pins.map { it.key to it.value.state.toString() }
+//fun stateAll() = pins.values.map { it.state.toString() }
 
 fun all() {
     currentDance?.cancel()
