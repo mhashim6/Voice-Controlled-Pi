@@ -1,5 +1,7 @@
 import io.ktor.application.call
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.put
@@ -28,24 +30,29 @@ fun main(args: Array<String>) {
                 call.parameters["pin"]?.let { pin: String ->
                     toggle(pin)
                 }
+                call.respond(HttpStatusCode.OK)
             }
 
             put("/toggle/color/{color}") {
                 call.parameters["color"]?.let { color ->
                     toggleColor(color)
                 }
+                call.respond(HttpStatusCode.OK)
             }
 
             put("/light") {
                 all()
+                call.respond(HttpStatusCode.OK)
             }
 
             put("/dark") {
                 none()
+                call.respond(HttpStatusCode.OK)
             }
 
             put("/dance/{type}") {
                 call.parameters["type"]?.let { type -> dance(type) }
+                call.respond(HttpStatusCode.OK)
             }
         }
     }.start(wait = true)
