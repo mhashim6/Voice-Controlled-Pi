@@ -17,7 +17,8 @@ private const val VOICE_REQUEST_CODE = 118
 private val PROMPTS = listOf(
     "Say a number from 1 to 10",
     "Say red, green, or yellow",
-    "Say light, or dark"
+    "Say light, or dark",
+    "Say dance"
 )
 
 class MainActivity : AppCompatActivity() {
