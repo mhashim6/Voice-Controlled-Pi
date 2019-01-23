@@ -3,6 +3,7 @@
  */
 
 import com.pi4j.io.gpio.*
+import kotlinx.coroutines.*
 
 private val gpio: GpioController = GpioFactory.getInstance()
 val pins = mapOf<String, GpioPinDigitalOutput>(
@@ -26,10 +27,12 @@ fun status(pin: String): String {
 }
 
 fun toggle(pin: String) {
+    currentDance?.cancel()
     pins[pin]?.toggle()
 }
 
 fun toggleColor(color: String) {
+    currentDance?.cancel()
     pins.values.filter { it.properties["color"] == color }.forEach { it.toggle() }
 }
 
@@ -37,9 +40,46 @@ fun statusAll() = pins.map { it.key to it.value.state.toString() }
 //fun statusAll() = pins.values.map { it.state.toString() }
 
 fun all() {
+    currentDance?.cancel()
     pins.values.forEach { it.high() }
 }
 
 fun none() {
+    currentDance?.cancel()
+    turnAllOff()
+}
+
+fun turnAllOff() {
     pins.values.forEach { it.low() }
+}
+
+var currentDance: Job? = null
+val background = CoroutineScope(Dispatchers.Default)
+
+val dances = mapOf(
+    "0" to suspend {
+        turnAllOff()
+        while (true)
+            pins.values.forEach { it.high(); delay(200); it.low(); delay(200) }
+    },
+    "1" to suspend {
+        turnAllOff()
+        while (true)
+            (1..11).forEach { leftLed ->
+                val rightLed = (11 - leftLed).toString()
+                pins[leftLed.toString()]?.high()
+                pins[rightLed]?.high()
+                delay(200)
+                pins[leftLed.toString()]?.low()
+                pins[rightLed]?.low()
+                delay(200)
+            }
+    }
+)
+
+fun dance(type: String) {
+    currentDance?.cancel()
+    currentDance = background.async {
+        dances[type]?.invoke()
+    }
 }

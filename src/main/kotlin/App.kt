@@ -43,6 +43,10 @@ fun main(args: Array<String>) {
             put("/dark") {
                 none()
             }
+
+            put("/dance/{type}") {
+                call.parameters["type"]?.let { type -> dance(type) }
+            }
         }
     }.start(wait = true)
 }
