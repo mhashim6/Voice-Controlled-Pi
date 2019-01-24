@@ -65,7 +65,7 @@ val dances = mapOf(
     "1" to suspend {
         turnAllOff()
         while (true)
-            (1..11).forEach { leftLed ->
+            (1..5).forEach { leftLed ->
                 val rightLed = (11 - leftLed).toString()
                 pins[leftLed.toString()]?.high()
                 pins[rightLed]?.high()
