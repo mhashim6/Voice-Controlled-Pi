@@ -28,7 +28,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         voiceButton.setOnClickListener { launchRecognizer("en") }
-        voiceButton.setOnLongClickListener { launchRecognizer("ja"); true } //why not.
+        voiceButton.setOnLongClickListener { launchRecognizer("ar"); true } //why not.
+
+        titleText.setOnLongClickListener { launchRecognizer("ja"); true } // I mean, I've already gone so far.
     }
 
     private fun launchRecognizer(language: String) {

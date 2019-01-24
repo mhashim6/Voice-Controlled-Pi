@@ -29,11 +29,47 @@ private val LED_NUMBERS = mapOf(
     "seven" to "7",
     "eight" to "8",
     "nine" to "9",
-    "ten" to "10"
+    "ten" to "10",
+    "واحد" to "1",
+    "اثنين" to "2",
+    "ثلاثه" to "3",
+    "اربعه" to "4",
+    "خمسه" to "5",
+    "سته" to "6",
+    "سبعه" to "7",
+    "ثمانيه" to "8",
+    "تسعه" to "9",
+    "عشره" to "10"
 )
 
-private val COMMANDS = arrayOf("light", "dark", "dance")
-private val COLORS = arrayOf("red", "green", "yellow")
+private val COMMANDS = mapOf(
+    "light" to "light",
+    "dark" to "dark",
+    "dance" to "dance",
+    "animation" to "dance",
+    "نور" to "light",
+    "ظلمه" to "dark",
+    "اطفي" to "dark",
+    "اتحرك" to "dance",
+    "انيميشن" to "dance",
+    "光" to "light",
+    "闇" to "dark",
+    "ダンス" to "dance",
+    "ありがとうございます" to "dance"
+)
+
+private val COLORS = mapOf(
+    "red" to "red",
+    "green" to "green",
+    "yellow" to "yellow",
+    "احمر" to "red",
+    "اخضر" to "green",
+    "اصفر" to "yellow",
+    "赤" to "red",
+    "緑" to "green",
+    "黄" to "yellow"
+)
+
 private val client = OkHttpClient()
 
 enum class Response { SUCCESSFUL, ERR_WRONG_COMMAND, ERR_CONNECTION }
@@ -46,8 +82,8 @@ suspend fun processCommand(voiceCmd: String): Response {
     try {
         when {
             ledNumber != null -> toggle(led = ledNumber)
-            COLORS.contains(voiceCmd) -> toggleColor(voiceCmd)
-            COMMANDS.contains(voiceCmd) -> sendCommand(voiceCmd)
+            COLORS.contains(voiceCmd) -> toggleColor(COLORS[voiceCmd]!!)
+            COMMANDS.contains(voiceCmd) -> sendCommand(COMMANDS[voiceCmd]!!)
             else -> response = Response.ERR_WRONG_COMMAND
         }
     } catch (e: Exception) {
