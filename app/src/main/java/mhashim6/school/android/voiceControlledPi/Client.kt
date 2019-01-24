@@ -1,13 +1,11 @@
 package mhashim6.school.android.voiceControlledPi
 
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 
-const val url = "http://192.168.43.182:8585/" // http://192.168.1.9:8585/
+const val url = "http://192.168.1.9:8585/" // 43.182
 
 private val LED_NUMBERS = mapOf(
     "1" to "1",
@@ -75,7 +73,7 @@ private val client = OkHttpClient()
 enum class Response { SUCCESSFUL, ERR_WRONG_COMMAND, ERR_CONNECTION }
 
 /** Basic input sanitization.*/
-suspend fun processCommand(voiceCmd: String): Response {
+fun processCommand(voiceCmd: String): Response {
     var response = Response.SUCCESSFUL
     val ledNumber = LED_NUMBERS[voiceCmd]
 
@@ -94,7 +92,7 @@ suspend fun processCommand(voiceCmd: String): Response {
     }
 }
 
-private suspend fun toggle(led: String) = withContext(Dispatchers.IO) {
+private fun toggle(led: String) {
     val request = Request.Builder()
         .url(url + "toggle/$led")
         .put(RequestBody.create(null, ""))
@@ -102,7 +100,7 @@ private suspend fun toggle(led: String) = withContext(Dispatchers.IO) {
     client.newCall(request).execute()
 }
 
-private suspend fun toggleColor(color: String) = withContext(Dispatchers.IO) {
+private fun toggleColor(color: String) {
     val request = Request.Builder()
         .url(url + "toggle/color/$color")
         .put(RequestBody.create(null, ""))
@@ -110,7 +108,7 @@ private suspend fun toggleColor(color: String) = withContext(Dispatchers.IO) {
     client.newCall(request).execute()
 }
 
-private suspend fun sendCommand(command: String) = withContext(Dispatchers.IO) {
+private fun sendCommand(command: String) {
     val request = Request.Builder()
         .url(url + command)
         .put(RequestBody.create(null, ""))
