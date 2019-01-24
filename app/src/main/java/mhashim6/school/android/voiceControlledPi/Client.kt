@@ -7,7 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 
-const val url = "http://192.168.43.182:8585/"
+const val url = "http://192.168.43.182:8585/" // http://192.168.1.9:8585/
 
 private val LED_NUMBERS = mapOf(
     "1" to "1",
@@ -34,7 +34,6 @@ private val LED_NUMBERS = mapOf(
 
 private val COMMANDS = arrayOf("light", "dark", "dance")
 private val COLORS = arrayOf("red", "green", "yellow")
-private val DANCES = arrayOf("0", "1")
 private val client = OkHttpClient()
 
 enum class Response { SUCCESSFUL, ERR_WRONG_COMMAND, ERR_CONNECTION }
@@ -77,7 +76,7 @@ private suspend fun toggleColor(color: String) = withContext(Dispatchers.IO) {
 
 private suspend fun sendCommand(command: String) = withContext(Dispatchers.IO) {
     val request = Request.Builder()
-        .url(url + command + if (command == "dance") "/${DANCES.random()}" else "")
+        .url(url + command)
         .put(RequestBody.create(null, ""))
         .build()
     client.newCall(request).execute()
