@@ -27,23 +27,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        voiceButton.setOnClickListener {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-            )
-            intent.putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE,
-                "en"
-            )
-            intent.putExtra(
-                RecognizerIntent.EXTRA_PROMPT,
-                PROMPTS.random()
-            )
-            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
-            startActivityForResult(intent, VOICE_REQUEST_CODE)
-        }
+        voiceButton.setOnClickListener { launchRecognizer("en") }
+        voiceButton.setOnLongClickListener { launchRecognizer("ja"); true } //why not.
+    }
+
+    private fun launchRecognizer(language: String) {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE,
+            language
+        )
+        intent.putExtra(
+            RecognizerIntent.EXTRA_PROMPT,
+            PROMPTS.random()
+        )
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+        startActivityForResult(intent, VOICE_REQUEST_CODE)
     }
 
     private val main = CoroutineScope(Dispatchers.Main)
