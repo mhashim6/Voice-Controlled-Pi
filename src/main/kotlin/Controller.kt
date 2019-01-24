@@ -77,9 +77,12 @@ val dances = mapOf(
     }
 )
 
-fun dance(type: String) {
+fun dance(type: String? = null) {
     currentDance?.cancel()
     currentDance = background.async {
-        dances[type]?.invoke()
+        if (type == null)
+            dances.values.random().invoke()
+        else
+            dances[type]?.invoke()
     }
 }

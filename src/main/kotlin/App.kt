@@ -54,6 +54,11 @@ fun main(args: Array<String>) {
                 call.parameters["type"]?.let { type -> dance(type) }
                 call.respond(HttpStatusCode.OK)
             }
+
+            put("/dance") {
+                dance()
+                call.respond(HttpStatusCode.OK)
+            }
         }
     }.start(wait = true)
 }
