@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 app:rippleColor="@color/colorAccent"
                 android:layout_height="wrap_content"
-                android:text="العربية"/>
+                android:text="@string/arabic"/>
 
         <com.google.android.material.chip.Chip
                 android:id="@+id/englishChip"
@@ -78,7 +78,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="English"/>
+                android:text="@string/english"/>
 
         <com.google.android.material.chip.Chip
                 android:id="@+id/japaneseChip"
@@ -88,7 +88,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="日本人"/>
+                android:text="@string/japanese"/>
 
     </com.google.android.material.chip.ChipGroup>
 

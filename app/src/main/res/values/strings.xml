@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">VoicePi</string>
-    <string name="tutorial">Tab the mic and say a number, or a color.</string>
+    <string name="tutorial">Tap the mic and say a number, or a color.</string>
+    <string name="arabic">العربية</string>
+    <string name="english">English</string>
+    <string name="japanese">日本人</string>
 </resources>
