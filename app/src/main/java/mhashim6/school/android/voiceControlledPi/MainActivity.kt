@@ -21,19 +21,35 @@ private val PROMPTS = arrayOf(
     "Say dance"
 )
 
+private val LANGUAGES = mapOf(
+    R.id.arabicChip to "ar",
+    R.id.englishChip to "en",
+    R.id.japaneseChip to "ja"
+)
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        voiceButton.setOnClickListener { launchRecognizer("en") }
-        voiceButton.setOnLongClickListener { launchRecognizer("ar"); true } //why not.
+        initChips()
 
-        titleText.setOnLongClickListener { launchRecognizer("ja"); true } // I mean, I've already gone so far.
+        voiceButton.setOnClickListener { launchRecognizer() }
     }
 
-    private fun launchRecognizer(language: String) {
+    private fun initChips() {
+        var previousSelection: Int = R.id.arabicChip
+        chipGroup.setOnCheckedChangeListener { chipGroup, id ->
+            //to act as a radiobutton group, also as a reminder of why I hate android.
+            if (id == -1)
+                chipGroup.check(previousSelection)
+            else
+                previousSelection = id
+        }
+    }
+
+    private fun launchRecognizer() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(
             RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -41,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         )
         intent.putExtra(
             RecognizerIntent.EXTRA_LANGUAGE,
-            language
+            LANGUAGES[chipGroup.checkedChipId]!!
         )
         intent.putExtra(
             RecognizerIntent.EXTRA_PROMPT,
