@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 
-const val url = "http://192.168.1.9:8585/" // 43.182
+const val URL = "http://192.168.1.9:8585/" // 43.182
 
 private val LED_NUMBERS = mapOf(
     "1" to "1",
@@ -40,7 +40,7 @@ private val LED_NUMBERS = mapOf(
     "عشره" to "10"
 )
 
-private val COMMANDS = mapOf(
+private val VOCAB = mapOf(
     "light" to "light",
     "dark" to "dark",
     "stop" to "dark",
@@ -80,13 +80,12 @@ enum class Response { SUCCESSFUL, ERR_WRONG_COMMAND, ERR_CONNECTION }
 /** Basic input sanitization.*/
 fun processCommand(voiceCmd: String): Response {
     var response = Response.SUCCESSFUL
-    val ledNumber = LED_NUMBERS[voiceCmd]
 
     try {
         when {
-            ledNumber != null -> toggle(led = ledNumber)
-            COLORS.contains(voiceCmd) -> toggleColor(COLORS[voiceCmd]!!)
-            COMMANDS.contains(voiceCmd) -> sendCommand(COMMANDS[voiceCmd]!!)
+            LED_NUMBERS.contains(voiceCmd) -> sendCommand("toggle/${LED_NUMBERS[voiceCmd]}")
+            COLORS.contains(voiceCmd) -> sendCommand("toggle/color/${COLORS[voiceCmd]}")
+            VOCAB.contains(voiceCmd) -> sendCommand(VOCAB[voiceCmd]!!)
             else -> response = Response.ERR_WRONG_COMMAND
         }
     } catch (e: Exception) {
@@ -97,25 +96,9 @@ fun processCommand(voiceCmd: String): Response {
     }
 }
 
-private fun toggle(led: String) {
+private fun sendCommand(endpoint: String) {
     val request = Request.Builder()
-        .url(url + "toggle/$led")
-        .put(RequestBody.create(null, ""))
-        .build()
-    client.newCall(request).execute()
-}
-
-private fun toggleColor(color: String) {
-    val request = Request.Builder()
-        .url(url + "toggle/color/$color")
-        .put(RequestBody.create(null, ""))
-        .build()
-    client.newCall(request).execute()
-}
-
-private fun sendCommand(command: String) {
-    val request = Request.Builder()
-        .url(url + command)
+        .url(URL + endpoint)
         .put(RequestBody.create(null, ""))
         .build()
     client.newCall(request).execute()
